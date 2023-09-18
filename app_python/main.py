@@ -16,7 +16,7 @@ async def currentTime(request: Request):
     formatted_time = time_utc_3.strftime("%Y-%m-%d %H:%M:%S")
     formatted_request = \
         {"request": request, "current_time": formatted_time}
-    return templates.TemplateResponse("currentTime.html",formatted_request)
+    return templates.TemplateResponse("currentTime.html", formatted_request)
 
 
 # if __name__ == "__main__":
