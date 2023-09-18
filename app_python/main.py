@@ -1,7 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from datetime import datetime, timedelta
-import uvicorn
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -15,8 +14,9 @@ async def currentTime(request: Request):
     time_utc_3 = time_utc + timedelta(hours=3)
 
     formatted_time = time_utc_3.strftime("%Y-%m-%d %H:%M:%S")
-
-    return templates.TemplateResponse("currentTime.html", {"request": request, "current_time": formatted_time})
+    formatted_request = \
+        {"request": request, "current_time": formatted_time}
+    return templates.TemplateResponse("currentTime.html",formatted_request)
 
 
 # if __name__ == "__main__":
