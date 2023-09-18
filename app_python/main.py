@@ -1,10 +1,11 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from datetime import datetime, timedelta
-import uvicorn 
+import uvicorn
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+
 
 @app.get("/")
 async def currentTime(request: Request):
