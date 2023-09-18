@@ -28,3 +28,13 @@ To build the Docker image, follow these steps:
     ```
         docker run -p 8000:8000 clock:latest
     ```
+
+Unit tests
+
+* To run unit tests
+    ```
+        pytest unit_tests.py
+    ```
+Github workflow
+    
+[![CI](https://github.com/PATH242/core-course-labs/actions/workflows/main.yml/badge.svg)](https://github.com/PATH242/core-course-labs/actions/workflows/main.yml)
