@@ -3,18 +3,17 @@ name: CI
 on:
   push:
     branches: [ "lab1", "lab2", "lab3"]
-  pull_request:
+  pull_request: 
     branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
@@ -22,18 +21,20 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
+
       - name: Install dependencies
         run: |
-          pip install -r ./app_python/requirements.txt
+          pip install -r app_python/requirements.txt
+          
       - name: Lint code
         run: |
-            pip install flake8
-            flake8 .
+          pip install flake8
+          flake8 app_python
+
       - name: Run tests
         run: |
           pip install pytest
-          cd ./app_python
-          pytest unit_tests.py
+          pytest app_python/unit_tests.py
       
       - name: Login to Docker Hub
         run: |
@@ -48,9 +49,12 @@ jobs:
 
       - name: Install Snyk CLI
         run: npm install -g snyk
+
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python-3.8@master
+        run: |
+          cd app_python
+          snyk test --all-projects
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high
+          with:
+          args: --severity-threshold=high"
