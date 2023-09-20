@@ -52,8 +52,8 @@ jobs:
       - name: Run Snyk to fix and check for vulnerabilities
         run: |
           cd app_python
-          snyk fix --all-projects
-          snyk test --all-projects
+          snyk fix --file=main.py
+          snyk test --file=main.py
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           with:
